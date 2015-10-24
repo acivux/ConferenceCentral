@@ -40,6 +40,7 @@ from models import ConferenceQueryForms
 from models import TeeShirtSize
 from models import Session, SessionForm, SessionForms
 from models import Speaker, SpeakerForm, SpeakerForms
+from models import SpeakerFormWsk, SpeakerFormsWsk
 
 from settings import WEB_CLIENT_ID
 from settings import ANDROID_CLIENT_ID
@@ -607,6 +608,19 @@ class ConferenceApi(remote.Service):
         spkr = Speaker(name=request.name)
         spkr.put()
         return request
+
+    @endpoints.method(message_types.VoidMessage,
+                      SpeakerFormsWsk,
+                      path='speaker/all',
+                      http_method='GET',
+                      name='getAllSpeakers')
+    def getAllSpeakers(self, request):
+        """List all speakers"""
+        spkrs = Speaker.query()
+        spk_forms = SpeakerFormsWsk(items=[
+            SpeakerFormWsk(name=getattr(data, 'name'),
+                           websafeKey=data.key.urlsafe()) for data in spkrs])
+        return spk_forms
 
     # Task 3, Item 2
     @endpoints.method(SPEAKERS_GET_REQUEST, SpeakerForms,

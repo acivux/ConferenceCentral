@@ -139,9 +139,20 @@ class SpeakerForm(messages.Message):
     name = messages.StringField(1)
 
 
+class SpeakerFormWsk(messages.Message):
+    """SpeakerFormUtil -- Session speaker form with websafe key"""
+    name = messages.StringField(1)
+    websafeKey = messages.StringField(2)
+
+
 class SpeakerForms(messages.Message):
     """SpeakerForms -- Speakers form"""
     items = messages.MessageField(SpeakerForm, 1, repeated=True)
+
+
+class SpeakerFormsWsk(messages.Message):
+    """SpeakerForms -- Speaker forms with websafe key"""
+    items = messages.MessageField(SpeakerFormWsk, 1, repeated=True)
 
 
 class SessionForm(messages.Message):
