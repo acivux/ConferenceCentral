@@ -56,14 +56,13 @@ class Conference(ndb.Model):
 class Session(ndb.Model):
     """Session -- Session object"""
     name = ndb.StringProperty(required=True)
-    speakerKey = ndb.StringProperty()
-    date = ndb.DateProperty()
-    startTime = ndb.TimeProperty()
-    duration = ndb.IntegerProperty()  # In minutes
-    sessionType = ndb.StringProperty(choices=SESSION_TYPE)
-    location = ndb.StringProperty()
-    highlight = ndb.TextProperty()
-    conferenceKey = ndb.StringProperty()
+    speakerKey = ndb.KeyProperty(Speaker, required=True)
+    date = ndb.DateProperty(required=True)
+    startTime = ndb.TimeProperty(required=True)
+    duration = ndb.IntegerProperty(required=True)  # In minutes
+    sessionType = ndb.StringProperty(choices=SESSION_TYPE, required=True)
+    location = ndb.StringProperty(required=True)
+    highlight = ndb.TextProperty(required=True)
 
 
 class ConferenceForm(messages.Message):
@@ -156,19 +155,37 @@ class SpeakerFormsWsk(messages.Message):
 
 
 class SessionForm(messages.Message):
-    """SessionForm -- Single session form"""
+    """SessionForm -- Single session input form"""
     name = messages.StringField(1)
     highlight = messages.StringField(2)
-    speaker = messages.StringField(3)
+    speakerKey = messages.StringField(3)
     duration = messages.IntegerField(4)
     sessionType = messages.StringField(5)
     date = messages.StringField(6)
     startTime = messages.StringField(7)
+    location = messages.StringField(8)
+
+
+class SessionQueryForm(messages.Message):
+    """SessionForm -- Single session output form"""
+    name = messages.StringField(1)
+    highlight = messages.StringField(2)
+    speakerKey = messages.StringField(3)
+    duration = messages.IntegerField(4)
+    sessionType = messages.StringField(5)
+    date = messages.StringField(6)
+    startTime = messages.StringField(7)
+    location = messages.StringField(8)
+    websafeSessionKey = messages.StringField(9)
 
 
 class SessionForms(messages.Message):
     """SessionForms -- multiple Session outbound form messages"""
     items = messages.MessageField(SessionForm, 1, repeated=True)
+
+class SessionQueryForms(messages.Message):
+    """SessionForms -- multiple Session outbound form messages"""
+    items = messages.MessageField(SessionQueryForm, 1, repeated=True)
 
 
 class ProfileMiniForm(messages.Message):

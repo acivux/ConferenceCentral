@@ -2,12 +2,11 @@
 ## Session
 The session entity was implemented as stipulated in the project documentation.
 
-```sessionType``` implemented as a ```StringProperty``` with choices to establish consistency across the app.
-
-The following was added to achieve function goals:
-
-- ```speakerKey```: A web safe key for the speaker of the session. See **Speaker** below
-- ```conferenceKey```: a web safe key of the conference this session is part of.
+```sessionType``` is implemented as a ```StringProperty``` with choices to establish consistency across the app.
+```StartTime``` is implemented as a ```TimeProperty``` which enables the use of standard Python time calculations. No need to invent the wheel again!
+```date``` is implemented as a ```DateProperty```  which enables the use of standard Python date calculations. No need to invent the wheel again!
+```duration``` is implemented as ```IntegerProperty``` representing minutes. Minutes is an easy unit to work with in Python date/time calculations, as well as for humans.
+```speakerKey``` is implemented as ```KeyProperty``` as it is designed to hold keys. It will hold a Speaker key (see Speaker below) 
 
 Multiple sessions can be added for a conference.
 
